@@ -1,5 +1,6 @@
 package tp1.api.service.util;
 
+import java.net.URISyntaxException;
 import java.util.*;
 
 import tp1.api.FileInfo;
@@ -22,7 +23,7 @@ public interface Directory {
 	 *         FORBIDDEN if the password is incorrect.
 	 * 	   BAD_REQUEST otherwise.
 	 */
-	Result<FileInfo> writeFile(String filename, byte []data, String userId, String password);
+	Result<FileInfo> writeFile(String filename, byte []data, String userId, String password) throws URISyntaxException;
 
 	/**
 	 * Delete an existing file ("userId/filename"). 
@@ -37,7 +38,7 @@ public interface Directory {
 	 *         FORBIDDEN if the password is incorrect.
 	 * 	   BAD_REQUEST otherwise.
 	 */
-	Result<Void> deleteFile(String filename, String userId, String password);
+	Result<Void> deleteFile(String filename, String userId, String password) throws URISyntaxException;
 
 	/**
 	 * Share the file "userId/filename" with another user. 
@@ -57,7 +58,7 @@ public interface Directory {
 	 *         FORBIDDEN if the password is incorrect.
 	 * 	   BAD_REQUEST otherwise.
 	 */
-	Result<Void> shareFile(String filename, String userId, String userIdShare, String password);
+	Result<Void> shareFile(String filename, String userId, String userIdShare, String password) throws URISyntaxException;
 
 	/**
 	 * Unshare the file "userId/filename" with another user. 
@@ -77,7 +78,7 @@ public interface Directory {
 	 *         FORBIDDEN if the password is incorrect.
 	 *         BAD_REQUEST otherwise.
 	 */
-	Result<Void> unshareFile(String filename, String userId, String userIdShare, String password);
+	Result<Void> unshareFile(String filename, String userId, String userIdShare, String password) throws URISyntaxException;
 
 	/**
 	 * Get the contents of the file "userId/filename". 
@@ -95,7 +96,7 @@ public interface Directory {
 	 *         FORBIDDEN if the password is incorrect or the user cannot access the file.
 	 * 	   BAD_REQUEST otherwise.
 	 */
-	Result<byte[]> getFile(String filename, String userId, String accUserId, String password);
+	Result<byte[]> getFile(String filename, String userId, String accUserId, String password) throws URISyntaxException;
 
 	/**
 	 * List the files a given user ("userId") has access to - this includes both its own files
@@ -109,5 +110,5 @@ public interface Directory {
 	 *         FORBIDDEN if the password is incorrect.
 	 *         BAD_REQUEST otherwise.
 	 */
-	Result<List<FileInfo>> lsFile(String userId, String password);
+	Result<List<FileInfo>> lsFile(String userId, String password) throws URISyntaxException;
 }

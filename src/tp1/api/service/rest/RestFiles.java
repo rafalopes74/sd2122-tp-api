@@ -11,10 +11,13 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.core.MediaType;
 
+import java.io.IOException;
+
 @Path(RestFiles.PATH)
 public interface RestFiles {
 
 	static final String PATH="/files";
+
 
 	/**
 	 * Write a file. If the file exists, overwrites the contents.
@@ -31,7 +34,7 @@ public interface RestFiles {
 	@Path("/{fileId}")
 	@Consumes(MediaType.APPLICATION_OCTET_STREAM)
 	@Produces(MediaType.APPLICATION_JSON)
-	void writeFile(@PathParam("fileId") String fileId, byte[] data, 
+	void writeFile(@PathParam("fileId") String fileId, byte[] data,
 			@QueryParam("token") @DefaultValue("") String token);
 
 	/**
@@ -48,7 +51,7 @@ public interface RestFiles {
 	 */
 	@DELETE
 	@Path("/{fileId}")
-	void deleteFile(@PathParam("fileId") String fileId, 
+	void deleteFile(@PathParam("fileId") String fileId,
 			@QueryParam("token") @DefaultValue("") String token);
 
 	/**
@@ -67,6 +70,6 @@ public interface RestFiles {
 	@Path("/{fileId}")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	byte[] getFile(@PathParam("fileId") String fileId, 
-			@QueryParam("token") @DefaultValue("") String token);
+			@QueryParam("token") @DefaultValue("") String token) throws IOException;
 
 }
