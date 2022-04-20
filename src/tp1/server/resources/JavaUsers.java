@@ -6,9 +6,7 @@ import java.util.*;
 import java.util.logging.Logger;
 import jakarta.inject.Singleton;
 import tp1.api.User;
-import tp1.api.service.rest.RestUsers;
 import tp1.api.service.util.Result;
-import tp1.api.service.util.Users;
 
 @Singleton
 public class JavaUsers {

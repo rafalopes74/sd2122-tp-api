@@ -3,14 +3,11 @@ package tp1.client;
 
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import tp1.api.service.rest.RestFiles;
-import tp1.api.service.rest.RestUsers;
+import tp1.server.rest.RestFiles;
 import tp1.server.resources.JavaDirectory;
 
-import java.io.InputStream;
 import java.net.URI;
 import java.util.logging.Logger;
 
@@ -74,7 +71,6 @@ public class RestFileClient extends RestClient implements RestFiles {
 
         if( f.getStatus() == Response.Status.OK.getStatusCode() && f.hasEntity() ) {
             System.out.println("Deu certo: " + f.getStatus());
-
         }
         else {
             System.out.println("Error, HTTP error status: " + f.getStatus());

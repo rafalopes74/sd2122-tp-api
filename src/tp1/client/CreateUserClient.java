@@ -1,17 +1,17 @@
 package tp1.client;
 
+import tp1.api.User;
+import util.Debug;
+
 import java.io.IOException;
 import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import util.Debug;
-import tp1.api.User;
-
 
 public class CreateUserClient {
 
-    private static Logger Log = Logger.getLogger(CreateUserClient.class.getName());
+    private static final Logger Log = Logger.getLogger(CreateUserClient.class.getName());
 
     static {
         System.setProperty("java.net.preferIPv4Stack", "true");
@@ -19,7 +19,7 @@ public class CreateUserClient {
 
     public static void main(String[] args) throws IOException {
 
-        Debug.setLogLevel( Level.FINE, Debug.SD2122 );
+        Debug.setLogLevel(Level.FINE, Debug.SD2122);
 
         if (args.length != 5) {
             System.err.println("Use: java sd2122.aula3.clients.CreateUserClient url userId fullName email password");

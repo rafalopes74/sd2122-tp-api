@@ -4,11 +4,11 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
 import tp1.api.FileInfo;
 import tp1.api.User;
-import tp1.api.service.rest.Resources;
 import tp1.api.service.util.Directory;
 import tp1.api.service.util.Result;
 import tp1.client.RestFileClient;
 import tp1.client.RestUsersClient;
+import tp1.server.rest.Resources;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -31,7 +31,6 @@ public class JavaDirectory extends Resources implements Directory {
 
         User u = (new RestUsersClient(Discovery.getInstance().knownUrisOf("users")[0])).getUser(userId, password);
 
-
         if (u != null) {
             Log.info("entrou no file, o user é " + u.getUserId());
 
@@ -45,22 +44,15 @@ public class JavaDirectory extends Resources implements Directory {
 
                 boolean found = false;
                 for (int i = 0; i < fi.size(); i++) {
-
-
                     if (fi.get(i).getFilename().equals(filename)) {
                         Log.info("o nome do file ja existe " + u.getUserId());
 
-                        String fn ="/"+ userId + "_" + filename;
+                        String fn = "/" + userId + "_" + filename;
                         var disc = Discovery.getInstance().knownUrisOf("files");
-
-
-                        //escreve no ficheiro,
 
                         new RestFileClient(disc[0]).writeFile(fn, data, "");
 
-
                         found = true;
-
                     }
                 }
 
@@ -69,7 +61,7 @@ public class JavaDirectory extends Resources implements Directory {
 
                     //escreve no ficherio
                     var positionServer = -1;
-                    String fn = "/"+ userId + "_" + filename;
+                    String fn = "/" + userId + "_" + filename;
                     String link = null;
                     var disc = Discovery.getInstance().knownUrisOf("files");
 
@@ -79,17 +71,18 @@ public class JavaDirectory extends Resources implements Directory {
 
                     Log.info("o nome do file nao existe 3 " + u.getUserId());
 
-                    files.get(userId).add(new FileInfo(userId, filename, link, new HashSet<>()));
+                    List<FileInfo> l = files.get(userId);
+                    l.add(new FileInfo(userId, filename, link, new HashSet<>()));
+                    files.put(userId, l);
 
-                    return Result.ok(files.get(userId).get(files.get(userId).size() - 1));
+                    return Result.ok(l.get(l.size() - 1));
                 }
 
             } else {
 
                 Log.info("user nao tem ficheiros " + u.getUserId());
-                var positionServer = -1;
-                String fn ="/"+ userId + "_" + filename;
-                String link = null;
+                String fn = "/" + userId + "_" + filename;
+
                 var disc = Discovery.getInstance().knownUrisOf("files");
 
                 Log.info("valor do disc cona" + disc.toString());
@@ -102,7 +95,7 @@ public class JavaDirectory extends Resources implements Directory {
 
                 Log.info("ja escreveu supsotamente " + u.getUserId());
 
-                link = disc[0].toString()+ fn ;
+                String link = disc[0].toString() + fn;
 
 
                 files.put(userId, new ArrayList<>());
@@ -115,10 +108,7 @@ public class JavaDirectory extends Resources implements Directory {
         } else {
             return Result.error(Result.ErrorCode.CONFLICT);
         }
-
         return null;
-
-
     }
 
 
@@ -230,7 +220,7 @@ public class JavaDirectory extends Resources implements Directory {
 
     public Result<byte[]> getFile(String filename, String userId, String accUserId, String password) throws URISyntaxException {
         //User u = userResources.getUser(userId, password);
-        User u = new RestUsersClient(Discovery.getInstance().knownUrisOf("users")[0]).getUser(userId, password);
+        /*User u = new RestUsersClient(Discovery.getInstance().knownUrisOf("users")[0]).getUser(userId, password);
 
 
         if (u != null) {
@@ -252,7 +242,7 @@ public class JavaDirectory extends Resources implements Directory {
 
 
                             Log.info("pilinha minima 2");
-                            Response res = Response.temporaryRedirect( file ).build();
+                            Response res = Response.temporaryRedirect(file).build();
 
                             Log.info("pilinha minima 3");
                             throw new WebApplicationException(res);
@@ -270,9 +260,8 @@ public class JavaDirectory extends Resources implements Directory {
                 //oficherio nao existe
                 return Result.error(Result.ErrorCode.CONFLICT);
             }
-        }
-        else return Result.error(Result.ErrorCode.CONFLICT);
-
+        } else return Result.error(Result.ErrorCode.CONFLICT);
+    */
         return null;
     }
 

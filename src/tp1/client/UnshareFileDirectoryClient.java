@@ -9,14 +9,14 @@ import java.util.logging.Logger;
 
 public class UnshareFileDirectoryClient {
 
-    private static Logger Log = Logger.getLogger(UnshareFileDirectoryClient.class.getName());
+    private static final Logger Log = Logger.getLogger(UnshareFileDirectoryClient.class.getName());
 
     static {
         System.setProperty("java.net.preferIPv4Stack", "true");
     }
 
     public static void main(String[] args) throws IOException {
-        Debug.setLogLevel( Level.FINE, Debug.SD2122 );
+        Debug.setLogLevel(Level.FINE, Debug.SD2122);
 
         if (args.length != 5) {
             System.err.println("Use: java sd2122.aula3.clients.UnshareFileDirectoryClient url filename userId shareUserId password");

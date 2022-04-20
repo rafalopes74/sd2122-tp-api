@@ -1,25 +1,21 @@
 package tp1.client;
 
+import jakarta.ws.rs.ProcessingException;
+import jakarta.ws.rs.client.Client;
+import jakarta.ws.rs.client.ClientBuilder;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientProperties;
+
 import java.net.URI;
 import java.util.function.Supplier;
 import java.util.logging.Logger;
 
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.client.ClientProperties;
-
-import jakarta.ws.rs.ProcessingException;
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-
 public class RestClient {
-    private static Logger Log = Logger.getLogger(RestClient.class.getName());
-
     protected static final int READ_TIMEOUT = 5000;
     protected static final int CONNECT_TIMEOUT = 5000;
-
     protected static final int RETRY_SLEEP = 3000;
     protected static final int MAX_RETRIES = 10;
-
+    private static final Logger Log = Logger.getLogger(RestClient.class.getName());
     final URI serverURI;
     final Client client;
     final ClientConfig config;
@@ -29,7 +25,7 @@ public class RestClient {
         this.config = new ClientConfig();
 
         config.property(ClientProperties.READ_TIMEOUT, READ_TIMEOUT);
-        config.property( ClientProperties.CONNECT_TIMEOUT, CONNECT_TIMEOUT);
+        config.property(ClientProperties.CONNECT_TIMEOUT, CONNECT_TIMEOUT);
 
         this.client = ClientBuilder.newClient(config);
     }

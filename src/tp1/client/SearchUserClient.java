@@ -1,11 +1,10 @@
 package tp1.client;
 
+import util.Debug;
+
 import java.io.IOException;
 import java.net.URI;
 import java.util.logging.Level;
-
-
-import util.Debug;
 
 public class SearchUserClient {
 

@@ -9,14 +9,14 @@ import java.util.logging.Logger;
 
 public class GetFileDirectoryClient {
 
-    private static Logger Log = Logger.getLogger(GetFileDirectoryClient.class.getName());
+    private static final Logger Log = Logger.getLogger(GetFileDirectoryClient.class.getName());
 
     static {
         System.setProperty("java.net.preferIPv4Stack", "true");
     }
 
     public static void main(String[] args) throws IOException {
-        Debug.setLogLevel( Level.FINE, Debug.SD2122 );
+        Debug.setLogLevel(Level.FINE, Debug.SD2122);
 
         if (args.length != 5) {
             System.err.println("Use: java sd2122.aula3.clients.GetFileDirectoryClient url filename userId accUserId password");
@@ -31,7 +31,7 @@ public class GetFileDirectoryClient {
 
         Log.info("Sending request to server.");
 
-       var result =  new RestDirectoryClient(URI.create(serverUrl)).getFile(filename, userId, accUserId, password);
+        var result = new RestDirectoryClient(URI.create(serverUrl)).getFile(filename, userId, accUserId, password);
         System.out.println("result: " + result);
     }
 

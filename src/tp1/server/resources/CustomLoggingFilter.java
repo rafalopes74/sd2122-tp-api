@@ -15,47 +15,47 @@ import java.io.InputStream;
 import java.util.logging.Logger;
 
 public class CustomLoggingFilter implements ContainerRequestFilter, ContainerResponseFilter {
-	private static Logger Log = Logger.getLogger(CustomLoggingFilter.class.getName());
+    private static final Logger Log = Logger.getLogger(CustomLoggingFilter.class.getName());
 
-	@Override
-	public void filter(ContainerRequestContext requestContext) throws IOException {
-		StringBuilder sb = new StringBuilder();
-		sb.append(" - Path: ").append(requestContext.getUriInfo().getPath());
-		sb.append(" - Header: ").append(requestContext.getHeaders());
-		sb.append(" - Entity: ").append(getEntityBody(requestContext));
-		Log.info("HTTP REQUEST : " + sb.toString());
-	}
+    @Override
+    public void filter(ContainerRequestContext requestContext) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        sb.append(" - Path: ").append(requestContext.getUriInfo().getPath());
+        sb.append(" - Header: ").append(requestContext.getHeaders());
+        sb.append(" - Entity: ").append(getEntityBody(requestContext));
+        Log.info("HTTP REQUEST : " + sb);
+    }
 
-	private String getEntityBody(ContainerRequestContext requestContext) {
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		InputStream in = requestContext.getEntityStream();
+    private String getEntityBody(ContainerRequestContext requestContext) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        InputStream in = requestContext.getEntityStream();
 
-		final StringBuilder b = new StringBuilder();
-		try {
-			ReaderWriter.writeTo(in, out);
+        final StringBuilder b = new StringBuilder();
+        try {
+            ReaderWriter.writeTo(in, out);
 
-			byte[] requestEntity = out.toByteArray();
-			if (requestEntity.length == 0) {
-				b.append("").append("\n");
-			} else {
-				b.append(new String(requestEntity)).append("\n");
-			}
-			requestContext.setEntityStream(new ByteArrayInputStream(requestEntity));
+            byte[] requestEntity = out.toByteArray();
+            if (requestEntity.length == 0) {
+                b.append("\n");
+            } else {
+                b.append(new String(requestEntity)).append("\n");
+            }
+            requestContext.setEntityStream(new ByteArrayInputStream(requestEntity));
 
-		} catch (IOException ex) {
-			// Handle logging error
-		}
-		return b.toString();
-	}
+        } catch (IOException ex) {
+            // Handle logging error
+        }
+        return b.toString();
+    }
 
-	@Override
-	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
-			throws IOException {
+    @Override
+    public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
+            throws IOException {
 
-		StringBuilder sb = new StringBuilder();
-		sb.append("Header: ").append(responseContext.getHeaders());
-		sb.append(" - Entity (JSON): ").append( Entity.entity(responseContext.getEntity(), MediaType.APPLICATION_JSON).getEntity());
-		Log.info("HTTP RESPONSE : " + sb.toString());
-	}
+        StringBuilder sb = new StringBuilder();
+        sb.append("Header: ").append(responseContext.getHeaders());
+        sb.append(" - Entity (JSON): ").append(Entity.entity(responseContext.getEntity(), MediaType.APPLICATION_JSON).getEntity());
+        Log.info("HTTP RESPONSE : " + sb);
+    }
 
 }

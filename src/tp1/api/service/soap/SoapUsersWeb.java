@@ -1,24 +1,13 @@
 package tp1.api.service.soap;
 
-import jakarta.ws.rs.WebApplicationException;
 import tp1.api.service.util.Result;
 
 import java.util.logging.Logger;
-
-
-import java.util.*;
-import java.util.logging.Logger;
-import jakarta.ws.rs.ProcessingException;
-import jakarta.ws.rs.WebApplicationException;
-import tp1.api.service.util.Result;
-import jakarta.ws.rs.core.Response.Status;
-
-import java.util.function.Supplier;
 
 public class SoapUsersWeb {
 
 
-    private static Logger Log = Logger.getLogger(tp1.api.service.rest.Resources.class.getName());
+    private static Logger Log = Logger.getLogger(tp1.server.rest.Resources.class.getName());
 
     protected  <T> T reTry(Result<T> func) throws UsersException {
         var h =  func;

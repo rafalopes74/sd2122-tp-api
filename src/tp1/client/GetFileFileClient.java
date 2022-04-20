@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 public class GetFileFileClient {
 
-    private static Logger Log = Logger.getLogger(GetFileFileClient.class.getName());
+    private static final Logger Log = Logger.getLogger(GetFileFileClient.class.getName());
 
     static {
         System.setProperty("java.net.preferIPv4Stack", "true");

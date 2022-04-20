@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * Represents a File in the system
  */
-public class FileInfo {
+public class 	FileInfo {
 	/**
 	 * userId of the owner
 	 */

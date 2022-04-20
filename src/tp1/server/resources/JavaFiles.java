@@ -14,8 +14,6 @@ public class JavaFiles {
     private static Logger Log = Logger.getLogger(JavaFiles.class.getName());
     public Result<Void> writeFile(String fileId, byte[] data, String token) {
         try {
-
-
             File file = new File(fileId);
             if(!file.exists()) file.createNewFile();
 

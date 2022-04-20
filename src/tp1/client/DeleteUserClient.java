@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DeleteUserClient {
-    private static Logger Log = Logger.getLogger(DeleteUserClient.class.getName());
+    private static final Logger Log = Logger.getLogger(DeleteUserClient.class.getName());
 
     static {
         System.setProperty("java.net.preferIPv4Stack", "true");
@@ -16,7 +16,7 @@ public class DeleteUserClient {
 
     public static void main(String[] args) throws IOException {
 
-        Debug.setLogLevel( Level.FINE, Debug.SD2122 );
+        Debug.setLogLevel(Level.FINE, Debug.SD2122);
 
         if (args.length != 3) {
             System.err.println("Use: java sd2122.aula3.clients.DeleteUserClient url userId password");
@@ -30,7 +30,7 @@ public class DeleteUserClient {
 
         Log.info("Sending request to server.");
 
-        var result = new RestUsersClient(URI.create(serverUrl)).deleteUser(userId,password);
+        var result = new RestUsersClient(URI.create(serverUrl)).deleteUser(userId, password);
         System.out.println("Result: " + result);
     }
 }

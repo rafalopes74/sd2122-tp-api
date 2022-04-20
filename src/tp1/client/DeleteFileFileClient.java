@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 public class DeleteFileFileClient {
 
-    private static Logger Log = Logger.getLogger(DeleteFileFileClient.class.getName());
+    private static final Logger Log = Logger.getLogger(DeleteFileFileClient.class.getName());
 
     static {
         System.setProperty("java.net.preferIPv4Stack", "true");
