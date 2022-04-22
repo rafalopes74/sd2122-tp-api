@@ -1,40 +1,43 @@
 package tp1.server.resources;
 
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebService;
 import tp1.api.FileInfo;
 import tp1.api.service.soap.DirectoryException;
 import tp1.api.service.soap.SoapDirectory;
+import tp1.api.service.soap.SoapUsers;
 import tp1.api.service.soap.UsersException;
 import tp1.server.javas.JavaDirectory;
 
 import java.net.URISyntaxException;
 import java.util.List;
-
+@WebService(serviceName= SoapDirectory.NAME, targetNamespace=SoapDirectory.NAMESPACE, endpointInterface=SoapDirectory.INTERFACE)
 public class DirectoryWebService extends SoapResources implements SoapDirectory {
 
     final JavaDirectory impl = new JavaDirectory();
 
-    @Override
+    @WebMethod
     public FileInfo writeFile(String filename, byte[] data, String userId, String password) throws DirectoryException, URISyntaxException, UsersException {
         return super.reTry(impl.writeFile(filename, data, userId, password));
 
     }
 
-    @Override
+    @WebMethod
     public void deleteFile(String filename, String userId, String password) throws DirectoryException, URISyntaxException, UsersException {
         super.reTry(impl.deleteFile(filename, userId, password));
     }
 
-    @Override
+    @WebMethod
     public void shareFile(String filename, String userId, String userIdShare, String password) throws DirectoryException, URISyntaxException, UsersException {
         super.reTry(impl.shareFile(filename, userId,userIdShare, password));
     }
 
-    @Override
+    @WebMethod
     public void unshareFile(String filename, String userId, String userIdShare, String password) throws DirectoryException, URISyntaxException, UsersException {
         super.reTry(impl.unshareFile(filename, userId,userIdShare, password));
     }
 
-    @Override
+    @WebMethod
     public byte[] getFile(String filename, String userId, String accUserId, String password) throws DirectoryException, URISyntaxException, UsersException {
         return super.reTry(impl.getFile(filename, userId,accUserId, password));
     }

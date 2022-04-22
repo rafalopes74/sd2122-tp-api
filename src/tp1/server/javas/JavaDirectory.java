@@ -6,6 +6,7 @@ import tp1.api.FileInfo;
 
 import tp1.api.service.util.Result;
 import tp1.client.RestFilesClient;
+import tp1.client.SoapFilesClient;
 import tp1.client.RestUsersClient;
 import tp1.server.util.Discovery;
 
@@ -121,8 +122,6 @@ public class JavaDirectory {
 
         throw new WebApplicationException(res);
 
-        //if(!f.isOK())return Result.error(f.error());
-        //return Result.ok(f.value());
     }
 
     public Result<List<FileInfo>> lsFile(String userId, String password) throws URISyntaxException {

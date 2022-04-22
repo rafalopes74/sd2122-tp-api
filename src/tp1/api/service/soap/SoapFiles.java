@@ -11,11 +11,11 @@ public interface SoapFiles {
 	static final String INTERFACE = "tp1.api.service.soap.SoapFiles";
 
 	@WebMethod
-	byte[] getFile(String fileId, String token) throws FilesException;
+	byte[] getFile(String fileId, String token) throws FilesException, UsersException;
 
 	@WebMethod
-	void deleteFile(String fileId, String token) throws FilesException;
+	void deleteFile(String fileId, String token) throws FilesException, UsersException;
 	
 	@WebMethod
-	void writeFile(String fileId, byte[] data, String token) throws FilesException;	
+	void writeFile(String fileId, byte[] data, String token) throws FilesException, UsersException;
 }

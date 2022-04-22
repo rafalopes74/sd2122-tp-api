@@ -3,22 +3,19 @@ package tp1.client;
 
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.client.WebTarget;
-import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import tp1.api.service.rest.RestFiles;
 
 import tp1.api.service.util.Files;
 import tp1.api.service.util.Result;
-import tp1.client.RestClient;
 
-import java.io.InputStream;
 import java.net.URI;
 import java.util.logging.Logger;
 
 public class RestFilesClient extends RestClient implements Files {
     final WebTarget target;
-    private static final Logger Log = Logger.getLogger(RestFilesClient.class.getName());
+    private static final Logger Log = Logger.getLogger(SoapFilesClient.class.getName());
 
     public RestFilesClient(URI serverURI) {
         super( serverURI );
