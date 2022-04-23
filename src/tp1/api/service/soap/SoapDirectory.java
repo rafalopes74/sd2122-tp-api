@@ -1,11 +1,13 @@
 package tp1.api.service.soap;
 
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.List;
 
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebService;
 import tp1.api.FileInfo;
+import tp1.api.service.util.Result;
 
 @WebService(serviceName=SoapDirectory.NAME, targetNamespace=SoapDirectory.NAMESPACE, endpointInterface=SoapDirectory.INTERFACE)
 public interface SoapDirectory {
@@ -16,20 +18,24 @@ public interface SoapDirectory {
 
 
 	@WebMethod
-	FileInfo writeFile(String filename, byte []data, String userId, String password) throws DirectoryException, URISyntaxException, UsersException;
+	FileInfo writeFile(String filename, byte []data, String userId, String password) throws DirectoryException, URISyntaxException, UsersException, MalformedURLException;
 
 	@WebMethod
-	void deleteFile(String filename, String userId, String password) throws DirectoryException, URISyntaxException, UsersException;
+	void deleteFile(String filename, String userId, String password) throws DirectoryException, URISyntaxException, UsersException, MalformedURLException;
 
 	@WebMethod
-	void shareFile(String filename, String userId, String userIdShare, String password) throws DirectoryException, URISyntaxException, UsersException;
+	void shareFile(String filename, String userId, String userIdShare, String password) throws DirectoryException, URISyntaxException, UsersException, MalformedURLException;
 
 	@WebMethod
-	void unshareFile(String filename, String userId, String userIdShare, String password) throws DirectoryException, URISyntaxException, UsersException;
+	void unshareFile(String filename, String userId, String userIdShare, String password) throws DirectoryException, URISyntaxException, UsersException, MalformedURLException;
 
 	@WebMethod
-	byte[] getFile(String filename,  String userId, String accUserId, String password) throws DirectoryException, URISyntaxException, UsersException;
+	byte[] getFile(String filename,  String userId, String accUserId, String password) throws DirectoryException, URISyntaxException, UsersException, MalformedURLException;
 
 	@WebMethod
-	List<FileInfo> lsFile(String userId, String password) throws DirectoryException, URISyntaxException, UsersException;
+	List<FileInfo> lsFile(String userId, String password) throws DirectoryException, URISyntaxException, UsersException, MalformedURLException;
+
+	@WebMethod
+	void deleteFilesUser(String userId, String password) throws URISyntaxException, MalformedURLException, DirectoryException;
+
 }

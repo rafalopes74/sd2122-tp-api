@@ -38,7 +38,7 @@ public class SoapDirectoryServer {
             System.setProperty("com.sun.xml.ws.transport.http.HttpAdapter.dump", "true");
             System.setProperty("com.sun.xml.internal.ws.transport.http.HttpAdapter.dump", "true");
 
-            Log.setLevel(Level.INFO);
+            Log.setLevel(Level.ALL);
 
             String ip = InetAddress.getLocalHost().getHostAddress();
             String serverURI = String.format(SERVER_URI_SOAP, ip, PORT);
@@ -46,7 +46,7 @@ public class SoapDirectoryServer {
             Endpoint.publish(serverURI.replace(ip, "0.0.0.0"), new DirectoryWebService());
 
             Discovery d = Discovery.getInstance();
-            d.announce("discovery", serverURI);
+            d.announce("directory", serverURI);
             d.listener();
 
             //More code can be executed here...

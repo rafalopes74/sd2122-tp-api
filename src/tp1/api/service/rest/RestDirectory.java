@@ -1,5 +1,6 @@
 package tp1.api.service.rest;
 
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.*;
 
@@ -40,7 +41,7 @@ public interface RestDirectory {
 	@Consumes(MediaType.APPLICATION_OCTET_STREAM)
 	@Produces(MediaType.APPLICATION_JSON)
 	FileInfo writeFile(@PathParam("filename") String filename, byte []data, 
-			@PathParam("userId") String userId, @QueryParam("password") String password)  throws URISyntaxException;
+			@PathParam("userId") String userId, @QueryParam("password") String password) throws URISyntaxException, MalformedURLException;
 
 	/**
 	 * Delete an existing file ("userId/filename"). 
@@ -58,7 +59,7 @@ public interface RestDirectory {
 	@DELETE
 	@Path("/{userId}/{filename}")
 	void deleteFile(@PathParam("filename") String filename, 
-			@PathParam("userId") String userId, @QueryParam("password") String password) throws URISyntaxException;
+			@PathParam("userId") String userId, @QueryParam("password") String password) throws URISyntaxException, MalformedURLException;
 
 	/**
 	 * Share the file "userId/filename" with another user. 
@@ -81,7 +82,7 @@ public interface RestDirectory {
 	@POST
 	@Path("/{userId}/{filename}/share/{userIdShare}")
 	void shareFile(@PathParam("filename") String filename, @PathParam("userId") String userId, 
-			@PathParam("userIdShare") String userIdShare, @QueryParam("password") String password) throws URISyntaxException;
+			@PathParam("userIdShare") String userIdShare, @QueryParam("password") String password) throws URISyntaxException, MalformedURLException;
 
 	/**
 	 * Unshare the file "userId/filename" with another user. 
@@ -104,7 +105,7 @@ public interface RestDirectory {
 	@DELETE
 	@Path("/{userId}/{filename}/share/{userIdShare}")
 	void unshareFile(@PathParam("filename") String filename, @PathParam("userId") String userId, 
-			@PathParam("userIdShare") String userIdShare, @QueryParam("password") String password) throws URISyntaxException;
+			@PathParam("userIdShare") String userIdShare, @QueryParam("password") String password) throws URISyntaxException, MalformedURLException;
 
 	/**
 	 * Get the contents of the file "userId/filename". 
@@ -126,7 +127,7 @@ public interface RestDirectory {
 	@Path("/{userId}/{filename}")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	byte[] getFile(@PathParam("filename") String filename, @PathParam("userId") String userId, 
-			@QueryParam("accUserId") String accUserId, @QueryParam("password") String password) throws URISyntaxException;
+			@QueryParam("accUserId") String accUserId, @QueryParam("password") String password) throws URISyntaxException, MalformedURLException;
 
 	/**
 	 * List the files a given user ("userId") has access to - this includes both its own files
@@ -144,10 +145,10 @@ public interface RestDirectory {
 	@Path("/{userId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	List<FileInfo> lsFile(@PathParam("userId") String userId, 
-			@QueryParam("password") String password) throws URISyntaxException;
-
+			@QueryParam("password") String password) throws URISyntaxException, MalformedURLException;
 
 	@DELETE
 	@Path("/{userId}")
-	void deleteUser( @PathParam("userId") String userId, @QueryParam("password") String password )throws URISyntaxException;
+	void deleteFilesUser( @PathParam("userId") String userId, @QueryParam("password") String password ) throws URISyntaxException, MalformedURLException;
+
 }

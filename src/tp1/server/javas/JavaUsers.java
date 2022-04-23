@@ -1,21 +1,28 @@
 package tp1.server.javas;
 
 
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Logger;
 import jakarta.inject.Singleton;
 import tp1.api.User;
 import tp1.api.service.util.Result;
+import tp1.client.ClientFactory;
 import tp1.client.RestDirectoryClient;
+import tp1.client.SoapDirectoryClient;
 import tp1.server.util.Discovery;
 
 @Singleton
 public class JavaUsers {
 
-    private final Map<String,User> users = new HashMap<>();
+    private final ConcurrentMap<String,User> users = new ConcurrentHashMap<>();
 
     private static Logger Log = Logger.getLogger(JavaUsers.class.getName());
+
+    private ClientFactory factory = new ClientFactory();
 
     public JavaUsers() {
     }
@@ -114,7 +121,7 @@ public class JavaUsers {
     }
 
 
-    public Result<User> deleteUser(String userId, String password) throws URISyntaxException {
+    public Result<User> deleteUser(String userId, String password) throws URISyntaxException, MalformedURLException {
         Log.info("deleteUser : user = " + userId + "; pwd = " + password);
 
         //check if values are correct
@@ -137,8 +144,12 @@ public class JavaUsers {
         }
 
 
+        Log.info("VALOR DO CARLAHO " + Discovery.getInstance().knownUrisOf("directory").toArray().length );
 
-        var i = new RestDirectoryClient(Discovery.getInstance().knownUrisOf("directory")[0]).deleteFilesUser(userId, password);
+        if(Discovery.getInstance().knownUrisOf("directory").toArray().length != 0)
+            ClientFactory.getDirectory().deleteFilesUser(userId, password);
+
+
 
         users.remove(userId);
 

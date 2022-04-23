@@ -3,7 +3,9 @@ package tp1.server;
 import org.glassfish.jersey.jdkhttp.JdkHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import tp1.server.resources.*;
+import tp1.server.util.CustomLoggingFilter;
 import tp1.server.util.Discovery;
+import tp1.server.util.GenericExceptionMapper;
 
 import java.net.InetAddress;
 import java.net.URI;
@@ -26,8 +28,8 @@ public class RestFilesServer {
         try {
             ResourceConfig config = new ResourceConfig();
             config.register(FileResources.class);
-            //config.register(CustomLoggingFilter.class);
-            //config.register(GenericExceptionMapper.class);
+            config.register(CustomLoggingFilter.class);
+            config.register(GenericExceptionMapper.class);
 
             String ip = InetAddress.getLocalHost().getHostAddress();
             String serverURI = String.format(SERVER_URI_REST, ip, PORT);

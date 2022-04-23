@@ -1,5 +1,6 @@
 package tp1.api.service.rest;
 
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.*;
 
@@ -84,7 +85,7 @@ public interface RestUsers {
 	@DELETE
 	@Path("/{userId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	User deleteUser(@PathParam("userId") String userId, @QueryParam("password") String password) throws URISyntaxException;
+	User deleteUser(@PathParam("userId") String userId, @QueryParam("password") String password) throws URISyntaxException, MalformedURLException;
 	
 	/**
 	 * Returns the list of users for which the pattern is a substring of the name (of the user), case-insensitive.

@@ -50,10 +50,6 @@ public class RestDirectoryClient extends RestClient implements Directory {
 
     }
 
-    @Override
-    public Result<List<FileInfo>> lsFile(String userId, String password) {
-        return Result.error(Result.ErrorCode.NOT_IMPLEMENTED);
-    }
 
     @Override
     public Result<Void> deleteFilesUser(String userId, String password){
@@ -71,6 +67,12 @@ public class RestDirectoryClient extends RestClient implements Directory {
         }
 
     }
+
+    @Override
+    public Result<List<FileInfo>> lsFile(String userId, String password) {
+        return Result.error(Result.ErrorCode.NOT_IMPLEMENTED);
+    }
+
     private Result<FileInfo> clt_writeFile(String filename, byte[] data, String userId, String password){
             Response r = target.path(userId).path(filename)
                     .queryParam("password", password).request()

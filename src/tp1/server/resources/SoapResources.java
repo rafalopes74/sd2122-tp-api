@@ -8,7 +8,7 @@ import tp1.api.service.util.Result;
 import java.util.logging.Logger;
 
 public class SoapResources {
-    private static Logger Log = Logger.getLogger(RestResources.class.getName());
+    private static Logger Log = Logger.getLogger(SoapResources.class.getName());
 
     protected  <T> T reTry(Result<T> func) throws UsersException {
         var h =  func;
@@ -22,10 +22,13 @@ public class SoapResources {
     }
     private void statusCalculation(Result.ErrorCode h) throws UsersException {
         var t = h.toString();
+
+        Log.info("COMO VEM OS ERROS DO SOAP: "+ t);
         if(t.equals("CONFLICT"))
             throw new UsersException();
 
-        throw new WebApplicationException(Status.NOT_MODIFIED);
+
+        throw new WebApplicationException(Status.BAD_REQUEST);
     }
 
 }

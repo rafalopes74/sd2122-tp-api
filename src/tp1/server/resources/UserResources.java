@@ -6,12 +6,14 @@ import tp1.api.service.rest.RestUsers;
 import tp1.server.javas.JavaUsers;
 
 
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Singleton
 public class UserResources extends RestResources implements RestUsers {
-
+    private static Logger Log = Logger.getLogger(UserResources.class.getName());
     final JavaUsers impl = new JavaUsers();
 
 
@@ -23,6 +25,8 @@ public class UserResources extends RestResources implements RestUsers {
     @Override
     public User getUser(String userId, String password) {
         return super.reTry(impl.getUser(userId, password));
+
+
     }
 
     @Override
@@ -31,7 +35,7 @@ public class UserResources extends RestResources implements RestUsers {
     }
 
     @Override
-    public User deleteUser(String userId, String password) throws URISyntaxException {
+    public User deleteUser(String userId, String password) throws URISyntaxException, MalformedURLException {
         return super.reTry(impl.deleteUser(userId, password));
     }
 

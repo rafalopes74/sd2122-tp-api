@@ -1,5 +1,6 @@
 package tp1.api.service.soap;
 
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public interface SoapUsers {
 	 * @throws UsersException otherwise
 	 */
 	@WebMethod
-	User deleteUser(String userId, String password) throws UsersException, URISyntaxException;
+	User deleteUser(String userId, String password) throws UsersException, URISyntaxException, MalformedURLException;
 	
 	/**
 	 * Returns the list of users for which the pattern is a substring of the name (of the user), case-insensitive.

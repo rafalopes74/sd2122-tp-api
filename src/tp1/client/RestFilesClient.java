@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 public class RestFilesClient extends RestClient implements Files {
     final WebTarget target;
-    private static final Logger Log = Logger.getLogger(SoapFilesClient.class.getName());
+    private static final Logger Log = Logger.getLogger(RestFilesClient.class.getName());
 
     public RestFilesClient(URI serverURI) {
         super( serverURI );

@@ -40,15 +40,12 @@ public class JavaFiles {
         if (file.delete())
             return Result.ok();
         else {
-            // pode haver outros resultados
             return Result.error(Result.ErrorCode.BAD_REQUEST);
         }
     }
 
 
     public Result<byte[]> getFile(String fileId, String token){
-
-
         File file = new File(fileId);
 
         if (!file.isFile()) return Result.error(Result.ErrorCode.NOT_FOUND);

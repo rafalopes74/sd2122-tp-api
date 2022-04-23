@@ -7,10 +7,9 @@ import jakarta.inject.Singleton;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Iterator;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Logger;
 
 /**
@@ -49,7 +48,7 @@ public class Discovery {
 	private String serviceName;
 	private String serviceURI;
 
-	private static ConcurrentHashMap<String, ArrayList<URI>> knowInterfaces;
+	private static ConcurrentHashMap<String, ConcurrentMap<String, URI>> knowInterfaces;
 	/**
 	 * @param  serviceName the name of the service to announce
 	 * @param  serviceURI an uri string - representing the contact endpoint of the service being announced
@@ -64,7 +63,7 @@ public class Discovery {
 		this.addr = addr;
 		this.serviceName = serviceName;
 		this.serviceURI  = serviceURI;
-		this.knowInterfaces = new ConcurrentHashMap<String, ArrayList<URI>>();
+		this.knowInterfaces = new ConcurrentHashMap<String, ConcurrentMap<String, URI>>();
 		this.instance = null;
 	}
 
@@ -142,21 +141,27 @@ public class Discovery {
 							if(knowInterfaces.containsKey(tokens[0])){
 								int size = knowInterfaces.get(tokens[0]).size();
 								boolean flag = false;
-								for(int i = 0; i < size; i++ ){
+								Iterator<String> it = knowInterfaces.get(tokens[0]).keySet().iterator();
+								while(it.hasNext()){
+									String i = it.next();
+
 									String[] h = knowInterfaces.get(tokens[0]).get(i).toString().split("#");
 									if(h[0].equals(tokens[1])){
 										knowInterfaces.get(tokens[0]).remove(i);
-										knowInterfaces.get(tokens[0]).add(new URI(tokens[1] + "#" + System.currentTimeMillis()));
+										String s = tokens[1] + "#" + System.currentTimeMillis();
+										knowInterfaces.get(tokens[0]).put( s, new URI(s));
 										//knowInterfaces.get(tokens[0]).set(i, new URI(tokens[1] + "#" + System.currentTimeMillis()));
 										flag = true;
 									}
 								}
-								if(!flag)
-									knowInterfaces.get(tokens[0]).add(new URI(tokens[1] + "#" + System.currentTimeMillis()));
+								if(!flag){
+									String s = tokens[1] + "#" + System.currentTimeMillis();
+									knowInterfaces.get(tokens[0]).put(s, new URI(s));}
 							}
 							else{
-								ArrayList<URI> aux = new ArrayList<URI>();
-								aux.add(new URI(tokens[1] + "#" + System.currentTimeMillis()));
+								ConcurrentMap<String, URI> aux = new ConcurrentHashMap<String, URI>();
+								String s = tokens[1] + "#" + System.currentTimeMillis();
+								aux.put(s, new URI(s));
 								knowInterfaces.put(tokens[0], aux);
 							}
 							checkForInterfacesNoneUsed();
@@ -185,7 +190,9 @@ public class Discovery {
 		Iterator<String> it = knowInterfaces.keys().asIterator();
 		while(it.hasNext()){
 			String aux = it.next();
-			for (int f = 0; f < knowInterfaces.get(aux).size(); f++) {
+			Iterator<String> i = knowInterfaces.get(aux).keySet().iterator();
+			while(i.hasNext()){
+			String f = i.next();
 				String[] a = knowInterfaces.get(aux).get(f).toString().split("#");
 				long aux2 = Long.parseLong(a[1]);
 				if ((System.currentTimeMillis() - aux2) > DISCOVERY_TIMEOUT) {
@@ -200,25 +207,37 @@ public class Discovery {
 	/**
 	 * Returns the known servers for a service.
 	 *
-	 * @param  serviceName the name of the service being discovered
+	 * @param serviceName the name of the service being discovered
 	 * @return an array of URI with the service instances discovered.
-	 *
 	 */
-	public static URI[] knownUrisOf(String serviceName) throws URISyntaxException {
+	public static Collection<URI> knownUrisOf(String serviceName) throws URISyntaxException {
 		//iterar a knowInterfaces e pronto
 		if (!knowInterfaces.containsKey(serviceName)) {
-			throw new Error("No such service Name" + knowInterfaces.containsKey(serviceName) + " nome passado para ver se ha: " + serviceName);
+			return new ArrayList<URI>();
+			//throw new Error("No such service Name" + knowInterfaces.containsKey(serviceName) + " nome passado para ver se ha: " + serviceName);
 		}
 		else{
-			ArrayList<URI> help = knowInterfaces.get(serviceName);
-			if(help == null ) return new URI[0];
+			ConcurrentMap<String, URI> help = knowInterfaces.get(serviceName);
+			if(help == null ) return new ArrayList<URI>();
+			List<URI> aux = new ArrayList<URI>();
 
-			URI[] aux = new URI[help.size()];
+			help.values().toArray();
+
+
+			Iterator<String> it = help.keySet().iterator();
+			int counter = 0;
+			while(it.hasNext()){
+				aux.add(new URI(it.next().split("#")[0]));
+			}
+			/*URI[] aux = new URI[help.size()];
+
+
 			for(int i = 0; i < help.size(); i++){
 				//pode haver erro aqui
 				aux[i] = new URI(help.get(i).toString().split("#")[0]);
 				System.out.println(aux[i]);
-			}
+			}*/
+
 			return aux;
 		}
 	}

@@ -5,7 +5,9 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import tp1.server.resources.DirectoryResources;
 
+import tp1.server.util.CustomLoggingFilter;
 import tp1.server.util.Discovery;
+import tp1.server.util.GenericExceptionMapper;
 
 import java.net.InetAddress;
 import java.net.URI;
@@ -30,8 +32,8 @@ public class RestDirectoryServer {
 
             ResourceConfig config = new ResourceConfig();
             config.register(DirectoryResources.class);
-            //config.register(CustomLoggingFilter.class);
-            //config.register(GenericExceptionMapper.class);
+            config.register(CustomLoggingFilter.class);
+            config.register(GenericExceptionMapper.class);
 
             String ip = InetAddress.getLocalHost().getHostAddress();
             String serverURI = String.format(SERVER_URI_REST, ip, PORT);
