@@ -1,6 +1,7 @@
 package tp1.client;
 
 import jakarta.ws.rs.ProcessingException;
+import tp1.api.service.util.Result;
 
 import java.net.URI;
 import java.util.function.Supplier;
@@ -31,7 +32,7 @@ public class SoapClient {
                 x.printStackTrace();
                 break;
             }
-        return null;
+        return (T) Result.ErrorCode.BAD_REQUEST;
     }
 
     private void sleep(int ms) {

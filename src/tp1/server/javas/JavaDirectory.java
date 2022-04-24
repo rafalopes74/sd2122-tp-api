@@ -7,6 +7,7 @@ import tp1.api.FileInfo;
 
 import tp1.api.User;
 import tp1.api.service.util.Result;
+import tp1.api.service.util.Users;
 import tp1.client.*;
 import tp1.server.util.Discovery;
 
@@ -35,7 +36,12 @@ public class JavaDirectory {
 
     private ClientFactory factory = new ClientFactory();
 
-    public JavaDirectory() {
+    private Users users;
+
+
+
+    public JavaDirectory() throws MalformedURLException, URISyntaxException {
+        users = ClientFactory.getClient();
         this.files = new ConcurrentHashMap<>();
         this.uriToNumberOfFiles = new ConcurrentHashMap<>();
     }
@@ -48,6 +54,7 @@ public class JavaDirectory {
             return Result.error(u.error());
 
         Log.info("CHECKPOINT 2");
+
 
 
         ConcurrentMap<String, FileInfo> filesMap = files.get(userId);
@@ -193,7 +200,7 @@ public class JavaDirectory {
     private Result<User> getUserAux(String userId, String password) throws URISyntaxException, MalformedURLException {
         //return new RestUsersClient(Discovery.getInstance().knownUrisOf(USERS_SERVICE_NAME)[0]).getUser(userId, password);
 
-        return ClientFactory.getClient().getUser(userId, password);
+        return users.getUser(userId, password);
     }
     public Result<Void> deleteFilesUser(String userId, String password) throws URISyntaxException, MalformedURLException {
         var u = this.getUserAux(userId, password);

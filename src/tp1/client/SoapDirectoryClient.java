@@ -28,20 +28,32 @@ public class SoapDirectoryClient extends SoapClient implements Directory {
     private static final Logger Log = Logger.getLogger(SoapDirectoryClient.class.getName());
     private static Service service = null;
 
+    private static SoapDirectory dir;
     public SoapDirectoryClient(URI serverURI) throws MalformedURLException {
         super( serverURI );
         QName qname = new QName(SoapDirectory.NAMESPACE, SoapDirectory.NAME);
         this.service = Service.create( URI.create(serverURI + "/?wsdl").toURL(), qname);
 
+
+        dir = service.getPort(tp1.api.service.soap.SoapDirectory.class);
     }
     @Override
     public Result<FileInfo> writeFile(String filename, byte[] data, String userId, String password) {
-        return super.reTry( () -> clt_writeFile( filename,data,userId,password ));
+        Result<FileInfo> res =  super.reTry( () -> clt_writeFile( filename,data,userId,password ));
+
+
+        if(res == null)
+            return Result.error(Result.ErrorCode.INTERNAL_ERROR);
+        else return res;
     }
 
     @Override
     public Result<Void> deleteFile(String filename, String userId, String password) {
-        return super.reTry( () -> clt_deleteFile(filename, userId, password));
+        Result<Void> res =  super.reTry( () -> clt_deleteFile(filename, userId, password));
+
+        if(res == null)
+            return Result.error(Result.ErrorCode.INTERNAL_ERROR);
+        else return res;
     }
 
     @Override
@@ -67,15 +79,16 @@ public class SoapDirectoryClient extends SoapClient implements Directory {
 
     @Override
     public Result<Void> deleteFilesUser(String userId, String password) {
-        return super.reTry( () -> clt_deleteUserFile(userId, password));
+        Result<Void> res = super.reTry( () -> clt_deleteUserFile(userId, password));
+
+        if(res == null)
+            return Result.error(Result.ErrorCode.INTERNAL_ERROR);
+        else return res;
     }
 
     private Result<Void> clt_deleteUserFile(String userId, String password){
-        SoapDirectory dir = service.getPort(tp1.api.service.soap.SoapDirectory.class);
 
-        ((BindingProvider) dir).getRequestContext().put(BindingProviderProperties.CONNECT_TIMEOUT, CONNECT_TIMEOUT);
-        ((BindingProvider) dir).getRequestContext().put(BindingProviderProperties.REQUEST_TIMEOUT, READ_TIMEOUT);
-        try{
+           try{
             dir.deleteFilesUser(userId, password);
 
             System.out.println("Result: Correu Bem");

@@ -14,7 +14,7 @@ public class DirectoryResources extends RestResources implements RestDirectory {
 
     final JavaDirectory impl = new JavaDirectory();
 
-    public DirectoryResources(){
+    public DirectoryResources() throws MalformedURLException, URISyntaxException {
     }
 
     @Override

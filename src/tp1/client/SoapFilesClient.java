@@ -29,37 +29,52 @@ public class SoapFilesClient extends SoapClient implements Files {
     private static final Logger Log = Logger.getLogger(SoapFilesClient.class.getName());
     private static Service service = null;
 
+    private static SoapFiles files;
+
     public SoapFilesClient(URI serverURI) throws MalformedURLException {
         super(serverURI);
         QName qname = new QName(SoapFiles.NAMESPACE, SoapFiles.NAME);
         this.service = Service.create( URI.create(serverURI + "/?wsdl").toURL(), qname);
+
+        files = service.getPort(tp1.api.service.soap.SoapFiles.class);
+
+        ((BindingProvider) files).getRequestContext().put(BindingProviderProperties.CONNECT_TIMEOUT, CONNECT_TIMEOUT);
+        ((BindingProvider) files).getRequestContext().put(BindingProviderProperties.REQUEST_TIMEOUT, READ_TIMEOUT);
 
     }
 
     @Override
     public Result<Void> writeFile(String fileId, byte[] data, String token) {
 
-        return super.reTry( () -> clt_writeFile( fileId, data,token ) );
+        Result<Void> res  = super.reTry( () -> clt_writeFile( fileId, data,token ) );
+
+        if(res == null)
+            return Result.error(Result.ErrorCode.INTERNAL_ERROR);
+        else return res;
 
     }
 
     @Override
     public Result<Void> deleteFile(String fileId, String token) {
-        return super.reTry( () -> clt_deleteFile( fileId, token ));
+        Result<Void> res  = super.reTry( () -> clt_deleteFile( fileId, token ));
+
+        if(res == null)
+            return Result.error(Result.ErrorCode.INTERNAL_ERROR);
+        else return res;
     }
 
     @Override
     public Result<byte[]> getFile(String fileId, String token) {
-        return super.reTry( () -> clt_getFile( fileId, token));
+        Result<byte[]> res = super.reTry( () -> clt_getFile( fileId, token));
+
+        if(res == null)
+            return Result.error(Result.ErrorCode.INTERNAL_ERROR);
+        else return res;
     }
 
 
     private Result<Void> clt_writeFile(String fileId, byte[] data, String token) {
-        SoapFiles files = service.getPort(tp1.api.service.soap.SoapFiles.class);
-
-        ((BindingProvider) files).getRequestContext().put(BindingProviderProperties.CONNECT_TIMEOUT, CONNECT_TIMEOUT);
-        ((BindingProvider) files).getRequestContext().put(BindingProviderProperties.REQUEST_TIMEOUT, READ_TIMEOUT);
-        try{
+           try{
             files.writeFile(fileId, data, token);
 
             System.out.println("Result: Correu Bem");
@@ -77,11 +92,7 @@ public class SoapFilesClient extends SoapClient implements Files {
 
 
     private Result<Void> clt_deleteFile(String fileId, String token) {
-        SoapFiles files = service.getPort(tp1.api.service.soap.SoapFiles.class);
-
-        ((BindingProvider) files).getRequestContext().put(BindingProviderProperties.CONNECT_TIMEOUT, CONNECT_TIMEOUT);
-        ((BindingProvider) files).getRequestContext().put(BindingProviderProperties.REQUEST_TIMEOUT, READ_TIMEOUT);
-        try{
+            try{
             files.deleteFile(fileId,token);
 
             System.out.println("Result: Correu Bem");
@@ -99,10 +110,6 @@ public class SoapFilesClient extends SoapClient implements Files {
     }
 
     private Result<byte[]> clt_getFile(String fileId, String token) {
-        SoapFiles files = service.getPort(tp1.api.service.soap.SoapFiles.class);
-
-        ((BindingProvider) files).getRequestContext().put(BindingProviderProperties.CONNECT_TIMEOUT, CONNECT_TIMEOUT);
-        ((BindingProvider) files).getRequestContext().put(BindingProviderProperties.REQUEST_TIMEOUT, READ_TIMEOUT);
         try{
             var r = files.getFile(fileId,token);
 

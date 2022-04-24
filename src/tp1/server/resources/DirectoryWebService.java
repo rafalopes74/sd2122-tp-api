@@ -17,6 +17,9 @@ public class DirectoryWebService extends SoapResources implements SoapDirectory 
     private static Logger Log = Logger.getLogger(DirectoryWebService.class.getName());
     final JavaDirectory impl = new JavaDirectory();
 
+    public DirectoryWebService() throws MalformedURLException, URISyntaxException {
+    }
+
     @WebMethod
     public FileInfo writeFile(String filename, byte[] data, String userId, String password) throws DirectoryException, URISyntaxException, UsersException, MalformedURLException {
         var x = impl.writeFile(filename, data, userId, password);
